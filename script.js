@@ -13,6 +13,16 @@ let apiQuotes = [];
 function newQuote(){
     //取得隨機quote from apiQuotes
     const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
+    authorText.textContent = quote.author;
+    
+    //字串太長時變更style
+    if(quote.text.length > 100){
+        quoteText.classList.add('long-quote');
+    } else{
+        quoteText.classList.remove('long-quote');
+    }
+    
+    quoteText.textContent = quote.text;
 }
 
 //取得 Quotes from api
@@ -27,8 +37,20 @@ async function getQuotes() {
     } catch (error) {
 
     }
-
 }
+
+//將字句傳至推特
+function tweetQuote(){
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${quoteText.textContent} - ${authorText.textContent}`;
+    //開啟新視窗
+    window.open(twitterUrl, '_blank')
+}
+
+//事件監聽註冊
+newQuoteBtn.addEventListener('click', newQuote);
+twitterBtn.addEventListener('click', tweetQuote);
+
+
 
 getQuotes();
 
